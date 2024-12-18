@@ -53,7 +53,7 @@ public class CompressedSerializer extends AbstractMappingSerializer {
     /**
      * Constructs a {@code CompressedSerializer} with the {@link CompressedLineSerializer} as its default parser.
      */
-    protected CompressedSerializer() {
+    public CompressedSerializer() {
         super(CompressedLineSerializer.getInstance());
     }
 
