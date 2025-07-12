@@ -44,7 +44,7 @@ signing {
 }
 
 javadoc {
-    failOnError = false
+    failOnError false
 }
 
 centralPortal {
