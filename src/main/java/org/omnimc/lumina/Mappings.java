@@ -123,7 +123,7 @@ public class Mappings {
      * @return The de-obfuscated class name, or {@code null} if not found.
      */
     public String getClassName(@NotNull String obfuscatedName) {
-        return classes.get(obfuscatedName);
+        return classes.getOrDefault(obfuscatedName, obfuscatedName);
     }
 
     /**
@@ -170,14 +170,14 @@ public class Mappings {
      * @param obfuscatedMethodName The obfuscated method name.
      * @return The de-obfuscated method name, or {@code null} if not found.
      */
-    public String getMethodName(@NotNull String obfuscatedClassName, @NotNull String obfuscatedMethodName) {
+    public String getMethodName(@NotNull String obfuscatedClassName, @NotNull String obfuscatedMethodName, String descriptor) {
         Map<String, String> methodMap = methods.get(obfuscatedClassName);
 
         if (methodMap == null) {
-            return null;
+            return obfuscatedMethodName;
         }
 
-        return methodMap.get(obfuscatedMethodName);
+        return methodMap.getOrDefault(obfuscatedMethodName + descriptor, obfuscatedMethodName);
     }
 
     /**
@@ -196,13 +196,13 @@ public class Mappings {
         return new ConcurrentHashMap<>(fields);
     }
 
-    public String getFieldName(@NotNull String obfuscatedClassName, @NotNull String obfuscatedFieldName) {
+    public String getFieldName(@NotNull String obfuscatedClassName, @NotNull String obfuscatedFieldName, String descriptor) {
         Map<String, String> fieldMap = fields.get(obfuscatedClassName);
         if (fieldMap == null) {
-            return null;
+            return obfuscatedFieldName;
         }
 
-        return fieldMap.get(obfuscatedFieldName);
+        return fieldMap.getOrDefault(obfuscatedFieldName + descriptor, obfuscatedFieldName);
     }
 
     public boolean addField(@NotNull String obfuscatedClassName, @NotNull String obfuscatedFieldName, @NotNull String fieldName) {
