@@ -109,7 +109,7 @@ public class CompressedDeserializer extends AbstractMappingDeserializer {
             try {
                 file.createNewFile();
             } catch (IOException e) {
-                this.fail(FailedState.of(e, this.getClass()));
+                this.fail(FailedState.of("Failed to create the file while it didn't exist.", e, this.getClass()));
                 return false;
             }
         } else {
@@ -117,7 +117,7 @@ public class CompressedDeserializer extends AbstractMappingDeserializer {
             try {
                 file.createNewFile();
             } catch (IOException e) {
-                this.fail(FailedState.of(e, this.getClass()));
+                this.fail(FailedState.of("Failed to create the file after deleting a previous version of said file.", e, this.getClass()));
                 return false;
             }
         }
