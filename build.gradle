@@ -1,19 +1,90 @@
+import net.thebugmc.gradle.sonatypepublisher.PublishingType
+
 plugins {
     id 'java'
+    id("net.thebugmc.gradle.sonatype-central-portal-publisher") version "1.2.4"
 }
-
 group = 'org.omnimc'
 version = '0.0.1'
 
 repositories {
     mavenCentral()
+
+    maven {
+        url 'https://jitpack.io'
+    }
 }
 
 dependencies {
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
 
+    testImplementation 'org.ow2.asm:asm:9.7'
+    testImplementation 'org.ow2.asm:asm-tree:9.7'
+    testImplementation 'org.ow2.asm:asm-analysis:9.7'
+    testImplementation group: 'org.ow2.asm', name: 'asm-commons', version: '9.7'
+    testImplementation group: 'org.ow2.asm', name: 'asm-util', version: '9.7'
+
+    testImplementation 'dev.7ori:runtimeprofiler:2.0.0'
+
+    testImplementation('org.omnimc:ASMHelper:2.2.9')
+
+    testImplementation 'org.omnimc:trix:1.0.0'
+
+    testImplementation 'org.omnimc:jvmzip:1.1.0'
+
     implementation 'org.jetbrains:annotations:26.0.1'
+}
+
+signing {
+    def signingKey = findProperty("signingKey")
+    def signingPassword = findProperty("signingPassword")
+    //noinspection GroovyAssignabilityCheck
+    useInMemoryPgpKeys(signingKey, signingPassword)
+}
+
+centralPortal {
+    if (version.toString().endsWith("BUILD-ONLY")) {
+        throw new GradleException("You cannot publish a build-only version. You may have not set the version.")
+    }
+
+    username = mavenCentralUsername
+    password = mavenCentralPassword
+
+    name = "lumina"
+
+    publishingType = PublishingType.USER_MANAGED // This is so we can manually review a release before published.
+
+    pom {
+        name = "Lumina"
+        description = "The mapping library for OmniMC."
+        url = "https://www.omnimc.org"
+
+        organization {
+            name = "OmniMC"
+            url = "https://www.omnimc.org"
+        }
+
+        developers {
+            developer {
+                id = "caden"
+                name = "Caden"
+                url = "https://github.com/CadenCCC"
+            }
+        }
+
+        licenses {
+            license {
+                name = "MIT License"
+            }
+        }
+
+        scm {
+            connection = 'scm:git:git://github.com/OmniModLoader/lumina.git'
+            developerConnection = 'scm:git:ssh://github.com:OmniModLoader/lumina.git'
+            url = 'https://github.com/OmniModLoader/lumina'
+        }
+    }
 }
 
 test {
