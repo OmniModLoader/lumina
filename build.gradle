@@ -43,6 +43,10 @@ signing {
     useInMemoryPgpKeys(signingKey, signingPassword)
 }
 
+javadoc {
+    failOnError = false
+}
+
 centralPortal {
     if (version.toString().endsWith("BUILD-ONLY")) {
         throw new GradleException("You cannot publish a build-only version. You may have not set the version.")
