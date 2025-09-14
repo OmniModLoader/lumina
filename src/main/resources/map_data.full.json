@@ -1,8 +1,0 @@
-{
-  "type": "FULL",
-  "location": {
-    "class": "*.class.mmap",
-    "method": "*.method.mmap",
-    "field": "*.field.mmap"
-  }
-}
