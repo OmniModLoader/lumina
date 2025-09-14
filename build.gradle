@@ -19,6 +19,8 @@ dependencies {
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
 
+    implementation 'org.lz4:lz4-java:1.8.0'
+
     testImplementation 'org.ow2.asm:asm:9.7'
     testImplementation 'org.ow2.asm:asm-tree:9.7'
     testImplementation 'org.ow2.asm:asm-analysis:9.7'
