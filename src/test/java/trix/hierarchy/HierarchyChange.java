@@ -1,19 +1,23 @@
-package temp.hierarchy;
+package trix.hierarchy;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.commons.Remapper;
 import org.omnimc.asm.changes.IClassChange;
 import org.omnimc.asm.file.ClassFile;
-import org.omnimc.lumina.Mappings;
 
+/**
+ * @author <a href=https://github.com/CadenCCC>Caden</a>
+ * @since 2.0.0
+ */
 public class HierarchyChange implements IClassChange {
 
     private final HierarchyManager hierarchyManager;
-    private final Mappings mappings;
+    private final Remapper remapper;
 
-    public HierarchyChange(HierarchyManager hierarchyManager, Mappings mappings) {
+    public HierarchyChange(HierarchyManager hierarchyManager, Remapper remapper) {
         this.hierarchyManager = hierarchyManager;
-        this.mappings = mappings;
+        this.remapper = remapper;
     }
 
     @Override
@@ -21,9 +25,9 @@ public class HierarchyChange implements IClassChange {
         ClassReader reader = new ClassReader(classBytes);
         ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_MAXS);
 
-        HierarchyClassVisitor hierarchyVisitor = new HierarchyClassVisitor(writer, hierarchyManager, mappings);
-        reader.accept(hierarchyVisitor, ClassReader.SKIP_CODE | ClassReader.SKIP_FRAMES | ClassReader.SKIP_DEBUG);
+        HierarchyClassVisitor classVisitor = new HierarchyClassVisitor(writer, remapper, hierarchyManager);
+        reader.accept(classVisitor, ClassReader.EXPAND_FRAMES);
 
-        return new ClassFile(name.replace(".class", ""), classBytes);
+        return new ClassFile(name, classBytes);
     }
 }
