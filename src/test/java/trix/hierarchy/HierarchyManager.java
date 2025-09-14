@@ -2,7 +2,6 @@ package trix.hierarchy;
 
 import org.omnimc.lumina.data.Mappings;
 import org.omnimc.lumina.data.types.ClassData;
-import temp.hierarchy.info.ClassInfo;
 
 import java.util.*;
 
